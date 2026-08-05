@@ -1,5 +1,7 @@
 # WeaveWise
 
+![WeaveWise demo](./assets/demo.gif)
+
 WeaveWise is a clothing sustainability tracker that reads garment tags, extracts structured clothing data, and estimates environmental impact for a single item or an entire wardrobe.
 
 The product flow is:
