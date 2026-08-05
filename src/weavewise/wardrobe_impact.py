@@ -6,7 +6,7 @@ from typing import Any
 
 from groq import Groq
 
-from yalehacks.config import get_groq_key, get_groq_summary_model
+from weavewise.config import get_groq_key, get_groq_summary_model
 
 
 def _strip_code_fence(s: str) -> str:

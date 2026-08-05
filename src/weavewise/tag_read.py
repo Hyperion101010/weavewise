@@ -6,7 +6,7 @@ import io
 from groq import Groq
 from PIL import Image
 
-from yalehacks.config import get_groq_key, get_groq_vision_model
+from weavewise.config import get_groq_key, get_groq_vision_model
 
 
 def _prepare_image(data: bytes) -> str:

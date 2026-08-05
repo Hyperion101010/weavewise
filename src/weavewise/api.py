@@ -8,13 +8,13 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, model_validator
 
-from yalehacks.config import get_cors_origins
-from yalehacks.db import create_session, get_session, update_session
-from yalehacks.graph import run_full_graph
-from yalehacks.query_build import build_sustainability_query
-from yalehacks.brightdata_client import search_parallel
-from yalehacks.tag_read import read_tag_text
-from yalehacks.wardrobe_impact import compute_wardrobe_impact
+from weavewise.config import get_cors_origins
+from weavewise.db import create_session, get_session, update_session
+from weavewise.graph import run_full_graph
+from weavewise.query_build import build_sustainability_query
+from weavewise.brightdata_client import search_parallel
+from weavewise.tag_read import read_tag_text
+from weavewise.wardrobe_impact import compute_wardrobe_impact
 
 
 def _session_json(doc: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -41,7 +41,7 @@ def _update_session_safe(session_id: str, fields: dict[str, Any]) -> None:
         raise HTTPException(status_code=404, detail="session_id not found") from None
 
 
-app = FastAPI(title="YaleHacks sustainability")
+app = FastAPI(title="WeaveWise sustainability")
 
 _origins = get_cors_origins()
 if _origins == ["*"]:

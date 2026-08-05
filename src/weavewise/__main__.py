@@ -1,4 +1,4 @@
-from yalehacks.cli import app
+from weavewise.cli import app
 
 if __name__ == "__main__":
     app()

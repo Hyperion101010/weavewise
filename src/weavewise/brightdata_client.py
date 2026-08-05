@@ -9,7 +9,7 @@ from urllib.parse import quote_plus
 import httpx
 from bs4 import BeautifulSoup
 
-from yalehacks.config import get_brightdata_api_key, get_brightdata_zone
+from weavewise.config import get_brightdata_api_key, get_brightdata_zone
 
 BRIGHTDATA_REQUEST_URL = "https://api.brightdata.com/request"
 

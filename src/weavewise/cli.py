@@ -6,9 +6,9 @@ from pathlib import Path
 
 import typer
 
-from yalehacks.db import create_session, update_session
-from yalehacks.graph import run_full_graph
-from yalehacks.tag_read import read_tag_text
+from weavewise.db import create_session, update_session
+from weavewise.graph import run_full_graph
+from weavewise.tag_read import read_tag_text
 
 app = typer.Typer(no_args_is_help=True)
 

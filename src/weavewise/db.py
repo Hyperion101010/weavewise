@@ -7,7 +7,7 @@ from typing import Any
 from pymongo import MongoClient, ASCENDING
 from pymongo.collection import Collection
 
-from yalehacks.config import get_mongodb_uri
+from weavewise.config import get_mongodb_uri
 
 _client: MongoClient | None = None
 _mongo_ok: bool | None = None
@@ -48,7 +48,7 @@ def _ping_mongo() -> bool:
 
 
 def get_db():
-    name = os.environ.get("MONGODB_DB_NAME", "yalehacks").strip() or "yalehacks"
+    name = os.environ.get("MONGODB_DB_NAME", "weavewise").strip() or "weavewise"
     return get_client()[name]
 
 

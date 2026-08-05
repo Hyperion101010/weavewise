@@ -6,10 +6,10 @@ from typing import TypedDict
 from groq import Groq
 from langgraph.graph import END, START, StateGraph
 
-from yalehacks.config import get_groq_key, get_groq_summary_model
-from yalehacks.db import update_session
-from yalehacks.query_build import build_sustainability_query
-from yalehacks.brightdata_client import search_parallel
+from weavewise.config import get_groq_key, get_groq_summary_model
+from weavewise.db import update_session
+from weavewise.query_build import build_sustainability_query
+from weavewise.brightdata_client import search_parallel
 
 
 class GraphState(TypedDict, total=False):

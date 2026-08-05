@@ -309,7 +309,7 @@ export default function App() {
                 </svg>
               </span>
               <div>
-                <p className="brand-kicker">YaleHacks sustainable wardrobe intelligence</p>
+                <p className="brand-kicker">WeaveWise sustainable wardrobe intelligence</p>
                 <p className="brand-title">WeaveWise</p>
               </div>
             </div>
@@ -534,7 +534,7 @@ export default function App() {
             Better information helps everyone choose clothes that align with the world we want —
             fair work, less waste, and a healthier environment.
           </p>
-          <p className="footer-meta">YaleHacks · Societal impact through everyday threads</p>
+          <p className="footer-meta">WeaveWise · Societal impact through everyday threads</p>
         </div>
       </footer>
     </div>

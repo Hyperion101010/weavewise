@@ -84,7 +84,7 @@ The application estimates clothing impact using a layered pipeline:
 ## Current Repository Structure
 
 ```text
-YaleHacks/
+WeaveWise/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.tsx
@@ -95,7 +95,7 @@ YaleHacks/
 │   ├── package.json
 │   └── vite.config.ts
 ├── src/
-│   └── yalehacks/
+│   └── weavewise/
 │       ├── api.py
 │       ├── brightdata_client.py
 │       ├── cli.py
@@ -117,7 +117,7 @@ Required:
 
 ```env
 MONGODB_URI=your_mongodb_atlas_connection_string
-MONGODB_DB_NAME=yalehacks
+MONGODB_DB_NAME=weavewise
 BRIGHTDATA_API_KEY=your_brightdata_key
 BRIGHTDATA_ZONE=search_api
 GROQ_API_KEY=your_groq_key
@@ -148,21 +148,21 @@ brew install python@3.11
 ### 2. Create a virtual environment
 
 ```bash
-cd "/Users/osamahgilani/Documents/New project/YaleHacks"
+cd "/Users/hyperion/tmp"
 /opt/homebrew/bin/python3.11 -m venv .venv
 ```
 
 ### 3. Install backend dependencies
 
 ```bash
-cd "/Users/osamahgilani/Documents/New project/YaleHacks"
+cd "/Users/hyperion/tmp"
 .venv/bin/pip install .
 ```
 
 ### 4. Install frontend dependencies
 
 ```bash
-cd "/Users/osamahgilani/Documents/New project/YaleHacks/frontend"
+cd "/Users/hyperion/tmp/frontend"
 npm install
 ```
 
@@ -171,14 +171,14 @@ npm install
 ### Backend
 
 ```bash
-cd "/Users/osamahgilani/Documents/New project/YaleHacks"
-.venv/bin/uvicorn yalehacks.api:app --host 127.0.0.1 --port 8000
+cd "/Users/hyperion/tmp"
+.venv/bin/uvicorn weavewise.api:app --host 127.0.0.1 --port 8000
 ```
 
 ### Frontend
 
 ```bash
-cd "/Users/osamahgilani/Documents/New project/YaleHacks/frontend"
+cd "/Users/hyperion/tmp/frontend"
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
