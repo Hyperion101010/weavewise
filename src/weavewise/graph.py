@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import re
 from typing import TypedDict
 
 from groq import Groq
@@ -10,6 +11,8 @@ from weavewise.config import get_groq_key, get_groq_summary_model
 from weavewise.db import update_session
 from weavewise.query_build import build_sustainability_query
 from weavewise.brightdata_client import search_parallel
+
+_THINK_TAG_RE = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
 
 
 class GraphState(TypedDict, total=False):
@@ -57,8 +60,10 @@ Summarize likely environmental and social sustainability implications of these m
         ],
         temperature=0.3,
         max_tokens=2048,
+        reasoning_format="hidden",
     )
-    return (resp.choices[0].message.content or "").strip()
+    text = (resp.choices[0].message.content or "").strip()
+    return _THINK_TAG_RE.sub("", text).strip()
 
 
 async def node_summarize(state: GraphState) -> dict:

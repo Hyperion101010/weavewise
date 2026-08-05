@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import base64
 import io
+import re
 
 from groq import Groq
 from PIL import Image
 
 from weavewise.config import get_groq_key, get_groq_vision_model
+
+_THINK_TAG_RE = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
 
 
 def _prepare_image(data: bytes) -> str:
@@ -50,9 +53,11 @@ def read_tag_text(image_bytes: bytes) -> str:
         ],
         temperature=0.2,
         max_tokens=2048,
+        extra_body={"reasoning_effort": "none"},
     )
     choice = resp.choices[0].message
     text = (choice.content or "").strip()
+    text = _THINK_TAG_RE.sub("", text).strip()
     if not text:
         raise RuntimeError("Vision model returned empty text")
     return text
