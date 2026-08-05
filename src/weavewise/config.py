@@ -7,11 +7,6 @@ load_dotenv()
 
 
 @lru_cache
-def get_mongodb_uri() -> str:
-    return os.environ.get("MONGODB_URI", "").strip()
-
-
-@lru_cache
 def get_brightdata_api_key() -> str:
     v = os.environ.get("BRIGHTDATA_API_KEY", "").strip()
     if not v:

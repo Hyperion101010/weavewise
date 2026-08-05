@@ -18,7 +18,7 @@ This project solves that by combining:
 
 - OCR for clothing tags
 - LLM-based parsing for messy real-world label text
-- MongoDB Atlas for structured persistence
+- in-memory session persistence
 - sustainability lookup and summarization logic
 - a React frontend for item and wardrobe reports
 
@@ -47,7 +47,7 @@ The application estimates clothing impact using a layered pipeline:
 - OCR extracts raw text from a garment tag image
 - parsing logic converts that raw text into structured garment data
 - search and enrichment gather supporting sustainability context
-- MongoDB stores sessions and can be expanded to store material lookup tables
+- sessions are stored in memory and can be expanded to a persistent store later
 - impact logic produces garment-level and wardrobe-level outputs
 
 ## Tech Stack
@@ -63,11 +63,6 @@ The application estimates clothing impact using a layered pipeline:
 - Python 3.11+
 - FastAPI
 - Uvicorn
-
-### Database
-
-- MongoDB Atlas
-- `pymongo`
 
 ### AI / Search / Orchestration
 
@@ -116,8 +111,6 @@ Create a local `.env` file in the repo root.
 Required:
 
 ```env
-MONGODB_URI=your_mongodb_atlas_connection_string
-MONGODB_DB_NAME=weavewise
 BRIGHTDATA_API_KEY=your_brightdata_key
 BRIGHTDATA_ZONE=search_api
 GROQ_API_KEY=your_groq_key
@@ -128,7 +121,6 @@ CORS_ORIGINS=*
 
 Notes:
 
-- `MONGODB_URI` connects the app to MongoDB Atlas
 - `BRIGHTDATA_API_KEY` powers web search enrichment
 - `GROQ_API_KEY` powers the LLM steps
 - `.env` should never be committed
@@ -257,80 +249,6 @@ Accepts a list of wardrobe items with summaries and returns a combined wardrobe-
 
 Returns the stored session document.
 
-## Database Design Direction
-
-MongoDB Atlas should evolve to include these collections:
-
-- `materials`
-- `countries`
-- `care_instructions`
-- `scans`
-- `users`
-
-### Example `materials` document
-
-```json
-{
-  "material_name": "polyester",
-  "aliases": ["polyester", "poly", "PES"],
-  "co2_per_kg": 5.5,
-  "water_per_kg": 17,
-  "energy_mj_per_kg": 104,
-  "is_recyclable": true,
-  "recycled_variant_co2": 2.1,
-  "biodegradable": false,
-  "category": "synthetic",
-  "source": "Higg MSI"
-}
-```
-
-### Example `countries` document
-
-```json
-{
-  "country": "Bangladesh",
-  "iso_code": "BD",
-  "avg_shipping_co2_per_kg": 0.8,
-  "factory_energy_mix": "mostly_fossil",
-  "energy_co2_factor": 1.2
-}
-```
-
-### Example `care_instructions` document
-
-```json
-{
-  "instruction": "machine_wash_40",
-  "co2_per_wash_kg": 0.3,
-  "water_per_wash_liters": 50,
-  "estimated_washes_per_year": 52
-}
-```
-
-### Example `scans` document
-
-```json
-{
-  "user_id": "user_123",
-  "raw_ocr_text": "60% Cotton 40% Polyester Made in China",
-  "parsed_data": {
-    "materials": [
-      { "name": "cotton", "percentage": 60 },
-      { "name": "polyester", "percentage": 40 }
-    ],
-    "country": "China",
-    "care": ["machine_wash_30", "do_not_tumble_dry"]
-  },
-  "carbon_score": {
-    "material_co2": 4.2,
-    "transport_co2": 0.6,
-    "use_phase_co2": 12.1,
-    "total_co2": 16.9,
-    "rating": "C"
-  }
-}
-```
-
 ## Data Sources For Sustainability Factors
 
 Recommended sources for building the material-impact lookup layer:
@@ -343,7 +261,7 @@ Recommended sources for building the material-impact lookup layer:
 - Textile Exchange Preferred Fiber & Materials reports
 - Carbon Trust research on fashion lifecycle emissions
 
-Because there is no single open API for clothing impact, the intended approach is to normalize these sources into your own MongoDB collections.
+Because there is no single open API for clothing impact, the intended approach is to normalize these sources into your own persistent storage layer.
 
 ## Carbon Calculation Direction
 
@@ -375,7 +293,7 @@ Because clothing tags do not include weight, garment-type defaults can be used:
 
 ### Phase 1
 
-- finalize MongoDB schema
+- finalize persistent storage schema
 - seed materials and country data
 - validate OCR on real garment tags
 
@@ -401,13 +319,12 @@ Because clothing tags do not include weight, garment-type defaults can be used:
 
 - frontend: Vercel
 - backend: Railway or Render
-- database: MongoDB Atlas
 
 ## Current Notes
 
 - The app boots locally with the backend and frontend commands above
 - The full pipeline depends on valid `.env` secrets
-- MongoDB support already exists in the current codebase
+- sessions are stored in memory only and are not persisted across restarts
 - `node_modules/` should remain ignored and local only
 
 ## Future Improvements
