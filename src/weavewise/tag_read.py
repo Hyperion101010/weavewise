@@ -16,13 +16,13 @@ def _prepare_image(data: bytes) -> str:
     im = Image.open(io.BytesIO(data))
     if im.mode != "RGB":
         im = im.convert("RGB")
-    max_side = 2048
+    max_side = 1024
     w, h = im.size
     if max(w, h) > max_side:
         scale = max_side / max(w, h)
         im = im.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
     buf = io.BytesIO()
-    im.save(buf, format="JPEG", quality=88)
+    im.save(buf, format="JPEG", quality=80)
     b64 = base64.standard_b64encode(buf.getvalue()).decode("ascii")
     return f"data:image/jpeg;base64,{b64}"
 
@@ -52,7 +52,7 @@ def read_tag_text(image_bytes: bytes) -> str:
             },
         ],
         temperature=0.2,
-        max_tokens=2048,
+        max_tokens=1024,
         extra_body={"reasoning_effort": "none"},
     )
     choice = resp.choices[0].message
